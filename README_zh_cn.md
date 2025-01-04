@@ -2,7 +2,7 @@
 
 此软件用来自动控制蓝天（主要是神舟）笔记本的风扇
 
-如果使用中遇到bug，欢迎提[issue](https://github.com/elight2/ClevoFanControl/issues)
+如果使用中遇到bug，欢迎提[Issue](https://github.com/elight2/ClevoFanControl/issues)
 
 ## 使用说明
 
@@ -10,25 +10,27 @@
 
 ### Windows
 
-1. 下载release里面对应的压缩包并解压
-2. 解压，管理员权限运行`ClevoFanControl-gui`
+1. 下载[最新版](https://github.com/elight2/ClevoFanControl/releases/latest)里面对应系统的压缩包并解压
+2. 管理员权限运行`ClevoFanControl-gui`
 
 ### Linux
 
 1. 下载release里面对应的压缩包并解压
 2. 确保安装了Qt6的lib文件，或者确保软件能找到对应的`.so`；如果使用`ClevoFanControl-cmd`则不需要
-3. root身份运行`ClevoFanControl-gui`
+3. root身份运行`cfc-launcher.sh`
+
+#### 注意（必读）
 
 * Linux下直接使用root身份启动程序可能出现程序正常运行但是托盘图标看不到的情况，请使用`cfc-launcher.sh`启动，本质是`unset XDG_CURRENT_DESKTOP`
 * 负载高（比如玩游戏）时请在托盘里切换`game***`模式，防止过热
 * 使用显卡时请打开托盘里的`Monitor GPU`，否则不会检测显卡温度，参考[显卡温度检测说明](#显卡温度检测说明)
-* 默认的配置文件是我在n960kp（神舟tx8）上根据自己的使用习惯测试并编写的，可能不适用于其他机型/用户，强烈建议阅读[功能介绍](#功能介绍)并自行修改配置
+* 默认的配置文件是作者在n960kp（神舟tx8）上根据自己的使用习惯测试并编写的，可能不适用于其他机型/用户，强烈建议阅读[功能介绍](#功能介绍)并自行修改配置
 
 ## 功能介绍
 
 ### 系统托盘
 
-* Monitor：用于监视实时状态（转速读取可能有问题）
+* Monitor：用于监视CPU和GPU的温度功耗，以及风扇调速信号百分比和实际转速
 * Config：管理软件设置（这个做的不太完善，建议手动编辑配置文件）
 * Profile: 用于选择使用的配置方案
 * Commands: 用于执行自定义的命令
@@ -36,13 +38,13 @@
 * Speed Limit：开启限速功能（设置在Config界面）
 * Static Speed：开启恒定转速功能（设置在Config界面）
 * Clevo Auto：使用蓝天默认的“自动”模式
-* Monitor GPU: 开启GPU温度检测
+* Monitor GPU: 开启GPU监测
 * Exit：退出，并使用蓝天默认的“自动”模式
 
 ### 配置
 
-* 关于多配置功能：这个功能只能用于选择或编辑已有配置，目前没有添加/删除/重命名配置的功能，如有需要请手动修改`config.json`
-* 关于自定义命令: 此功能目前只能执行已经在`config.json`中保存的命令，要添加/删除/重命名命令，需要手动编辑文件，预置的两个命令用于在使用`acpi-cpufreq`驱动的Linux系统下设置CPU频率调度方案
+* 目前多配置功能只能用于选择或编辑已有配置（在GUI里），没有添加/删除/重命名配置的功能，如有需要请手动修改`config.json`
+* 目前自定义命令功能只能执行已经在`config.json`中保存的命令，要添加/删除/重命名命令，需要手动编辑配置文件，预置的两个命令用于限制显卡频率最高为1200MHz和恢复默认显卡频率上限
 * 默认的`normal`配置用于日常使用，`game4030`配置提高了两个风扇的最低转速（CPU和显卡风扇分别为40%,30%），适合游戏
 
 #### 配置文件
