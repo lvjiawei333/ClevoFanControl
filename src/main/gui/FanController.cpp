@@ -12,15 +12,15 @@
 //for cpu temp in Windows
 #define IA32_PACKAGE_THERM_STATUS_MSR 0x1B1
 
-void CpuPowerMonitor::rdmsr(int pos, int len, char *dest) {
-    memset(dest, 0, len);
+void CpuPowerMonitor::rdmsr(int pos, char *dest) {
+    memset(dest, 0, 8);
 #ifdef __linux__
     try {
         FILE *fp=fopen(cpuMsrDir,"rb");
         if(fp==NULL)
             return;
         fseek(fp, pos, SEEK_SET);
-        fread(dest,len,1,fp);
+        fread(dest,8,1,fp);
         fclose(fp);
         return;
     } catch(std::exception &exc) {
@@ -30,7 +30,8 @@ void CpuPowerMonitor::rdmsr(int pos, int len, char *dest) {
     DWORD eax=0;
 	DWORD edx=0;
     Rdmsr(pos,&eax,&edx);
-    memcpy(dest,&eax,len);
+    memcpy(dest,&eax,4);
+    memcpy(dest+4,&edx,4);
 #endif
 }
 
@@ -44,10 +45,10 @@ CpuPowerMonitor::CpuPowerMonitor(int index) {
 
 double CpuPowerMonitor::getCurEnergy() {
     char buff[8];
-    rdmsr(MSR_RAPL_POWER_UNIT, 8, buff);
+    rdmsr(MSR_RAPL_POWER_UNIT, buff);
     char times=0;
     memcpy(&times, buff+1, 1);
-    rdmsr(MSR_PKG_ENERGY_STATUS, 8, buff);
+    rdmsr(MSR_PKG_ENERGY_STATUS, buff);
     uint32_t oriEnergy;
     memcpy(&oriEnergy,buff,4);
     double realEnergy=(double)oriEnergy*1000/std::pow(2,times); // in mwatt

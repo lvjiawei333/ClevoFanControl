@@ -15,7 +15,7 @@ public:
 
 private:
     double getCurEnergy();
-    void rdmsr(int pos, int len, char *dest);
+    void rdmsr(int pos, char *dest);
 
     double lastEnergy;
     long lastQueryTime;

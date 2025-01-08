@@ -49,9 +49,13 @@ If you meet bugs while using this software, feel free to open an [Issue](https:/
 
 ### Configuration
 
-* 
-* 
+* Currently, the multi-profile function only supports selecting and editing existing ones in GUI. If you want to add/remove/rename a profile, you have to edit `config.json` manully.
+* Currently, the function of custom commands only supports executing commands saved in `config.json`, to add/remove/rename a command, please edit it manully. The 2 original command entries each serves the functions of limiting the GPU frequency to 1200Mhz and reseting the frequency limitation respectively.
 * The default `normal` profile is suitable for daily work while the `game4030` one is made for gaming scene with higher min fan speed
+
+#### Configuration File (`config.json`)
+
+* Any newer version of this software **does not support** automatically upgrading config file from older versions, after upgrading, you have to edit
 
 ### Explanation of GPU Temperature Monitoring
 
