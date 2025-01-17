@@ -1,27 +1,25 @@
 [简体中文](README_zh_cn.md)
 
-# This English version of this article is still under construction
-
 # ClevoFanControl
 
 Clevo laptop fan control utility
 
-**Modifying Hardware is risky, the Author is not responsible for any damage caused by this software!**
+**Modifying Hardware is risky, the Author is not responsible for any damage that may occur. Please read the feature description before proceeding!**
 
-If you meet bugs while using this software, feel free to open an [Issue](https://github.com/elight2/ClevoFanControl/issues)
+If you encounter bugs dring use, feel free to open an [Issue](https://github.com/elight2/ClevoFanControl/issues)
 
 ## Usage
 
-**For detailed instructions on how to use, see [Feature Introduction](#Feature-Introduction)**
+**For detailed information, see [Feature Introduction](#Feature-Introduction)**
 
 ### Windows
 
-1. Download the [latest release](https://github.com/elight2/ClevoFanControl/releases/latest) for Windows and extract the zip file
+1. Download and extract the [latest release](https://github.com/elight2/ClevoFanControl/releases/latest) for Windows
 2. Run `ClevoFanControl-gui` as Administrator
 
 ### Linux
 
-1. Download the [latest release](https://github.com/elight2/ClevoFanControl/releases/latest) for Windows and extract the tar file
+1. Download and extract the [latest release](https://github.com/elight2/ClevoFanControl/releases/latest) for Linux
 2. Make sure that the lib files of Qt6 are installed on your os, or instead, you can set environment variables to make the program load your Qt6 `.so` files
 3. Run `cfc-launcher.sh` as root
 
@@ -55,7 +53,19 @@ If you meet bugs while using this software, feel free to open an [Issue](https:/
 
 #### Configuration File (`config.json`)
 
-* Any newer version of this software **does not support** automatically upgrading config file from older versions, after upgrading, you have to edit
+* Any newer version of this software **does not support** automatically upgrading config file from older versions, after upgrading, you have to migrate the old config file manually: run the new version once to let it generate a new version of `config.json`, then copy the corresponding entries from the old file into the new one
+* To prevent from being unsaved during shutdown, every change in the system tray will trigger a  config file save
+
+#### Config GUI
+
+*It's recommended to edit the json file instead of using the GUI*
+
+* Profile: Select different profile to edit. (to select which profile to use, use system tray)
+* Temp-Speed mode: If the core temperature is between 2 temp values, set the fan spped to the corresponding speed value of the lower temp.
+* Max Temp mode: The fan speed will be improved by "Speed Step" if the core temperature is higher than "Speed Up Temp", and will be lowered by "Speed Step" if it's lower than "Slow Down Temp". The speed won't be lower than "Min Speed". **Note: this is the recommended mode to use, which produces lower fan noise, but slightly affect performance. With low fan speed, the motherboard heats up easily, so it's strongly recommended to set the "Min Speed" a bit higher to cool it down**
+* Static Speed: Set the fan speed percentage to specific values, mainly used for debugging thermal design. Check "enabled" to turn it on
+* Speed Limit: Limit the max speed of the fans. Fan speeds of both mode won't be higher than the limitation when enabled
+* Fan Intervals: 
 
 ### Explanation of GPU Temperature Monitoring
 
