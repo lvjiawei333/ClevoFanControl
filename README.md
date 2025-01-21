@@ -73,13 +73,34 @@ If you encounter bugs dring use, feel free to open an [Issue](https://github.com
 
 ### Commands Feature
 
-* Aimming at executing hardware adjusting commands as root/Administrator conveniently
+* Its main purpose is to execute hardware adjusting commands as root/Administrator conveniently
 * The `GPU-1200` command limits nvidia GPU clock to 1200Mhz, while the `GPU-rgc` restores the default clock limitation
 
 ### Explanation of GPU Temperature Monitoring
 
-* Currently, `nvidia-smi` is used for GPU temperature detection. However, running `nvidia-smi` activates the GPU, leading to additional power consumption, resulting in high temperature and energy waste when the dGPU is not in use (normally, nvidia GPU go to "sleep" state when idle). As determining whether the nvidia GPU is in use is hard, the temperature monitoring have to be enabled manually when you use dGPU. The Experimental GPU auto detect functionality is explained as following.
-* 
+* Currently, `nvidia-smi` is used for GPU temperature detection. However, running `nvidia-smi` activates the GPU, causing additional power consumption, resulting in high temperature and energy waste when the dGPU is not in use (normally, nvidia GPU go to "sleep" state when idle). As determining whether the nvidia GPU is in use is hard, the temperature monitoring have to be enabled manually when you use dGPU. The Experimental GPU usage auto detection functionality is explained as follow
+* GUI configuration is not supported
+* Windows is not supported, but theoretically possible. Suggestions are welcome via [issue](https://github.com/elight2/ClevoFanControl/issues)
+* Enabling "Monitor GPU" in tray forces GPU monitoring regardless of the auto detection settings
+* Auto detection is disabled when `gpuAutoDetect` is set to `false` in `config.json`
+* When `gpuAutoDetect` is set to `true`, the program automatically detects GPU usage by checking specific files under `/sys` and `/dev`, deciding whether to monitor GPU's temperature and power. The detection is implemented in function `GpuFanController::getTemp` in source code.
+
+### Command-Line Version (ClevoFanControl-cmd)
+
+* This version is mainly designed for some linux operating systems without GUI. This version can run without Qt6 libraries.
+* For detailed usage, use `--help` or `/?` argument
+* **Important: Data entered in the version is sent directly to EC without safety check (e.g. max and min value). Make sure you input the correct value**
+
+### Auto Start on Boot
+
+#### Windows
+
+1. Create a custom task in "Task Scheduler"
+2. Under "Action", set the task to launch `ClevoFanControl-gui.exe` and set its containing directory as the start location
+3. Set "Trigger" to activate on user login
+4. Check "Run with highest privilege"
+
+#### Linux
 
 ### mechanism
 * `ec.zip` in this repository contains all the referance resource I found.

@@ -82,7 +82,7 @@
 * 不支持Windows，理论上可以支持，有想法请提[issue](https://github.com/elight2/ClevoFanControl/issues)
 * Linux下打开托盘的GPU温度检测开关后强制检测温度，无论自动检测是否启用
 * Linux下的`config.json`中的`gpuAutoDetect`设置为`false`时关闭自动检测
-* `gpuAutoDetect`为`true`时，根据`/sys`和`/dev`下的特定文件自动检测显卡是否正在使用，来决定是否使用`nvidia-smi`获取显卡温度，具体机制参考代码中的`GpuFanController::getTemp`
+* `gpuAutoDetect`为`true`时，根据`/sys`和`/dev`下的特定文件自动检测显卡是否正在使用，来决定是否使用`nvidia-smi`获取显卡温度和功耗，具体机制参考代码中的`GpuFanController::getTemp`
 * 自动检测使用`lsof`检测打开显卡系统文件的进程，要排除的进程写在配置文件的`procExclude`数组中，需要根据本机情况修改
 
 ### 命令行版本(ClevoFanControl-cmd)
@@ -95,7 +95,7 @@
 #### Windows
 
 1. 在”任务计划程序“中创建自定义任务
-2. ”操作“选择启动`ClevoFanControl-gui`，起始目录好像需要设置为`ClevoFanControl-gui`所在目录
+2. ”操作“选择启动`ClevoFanControl-gui.exe`，起始目录需要设置为`ClevoFanControl-gui`所在目录
 3. ”触发器“选择用户登录时
 4. 勾选”使用最高权限运行“
 
