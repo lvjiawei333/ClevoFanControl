@@ -1,31 +1,32 @@
 **使用本软件有风险，使用前请注意！建议先阅读功能介绍！作者对可能造成的损坏概不负责！**
 
-此软件用来自动控制蓝天（主要是神舟）笔记本的风扇
+此软件用来自动控制蓝天笔记本的风扇
 
 如果使用中遇到bug，欢迎提[Issue](https://github.com/elight2/ClevoFanControl/issues)
 
 ## 使用说明
 
 **详细说明参考[功能介绍](#功能介绍)**
+
 **一定要看[注意](#注意必读)**
 
 ### Windows
 
 1. 下载[最新版](https://github.com/elight2/ClevoFanControl/releases/latest)里面对应系统的压缩包并解压
-2. 管理员权限运行`ClevoFanControl-gui`
+2. 管理员权限运行`ClevoFanControl-gui.exe`
 
 ### Linux
 
-1. 下载release里面对应的压缩包并解压
+1. 下载[最新版](https://github.com/elight2/ClevoFanControl/releases/latest)里面对应系统的压缩包并解压
 2. 确保安装了Qt6的lib文件，或者确保软件能找到对应的`.so`；如果使用`ClevoFanControl-cmd`则不需要
 3. root身份运行`cfc-launcher.sh`
 
 #### 注意（必读）
 
-* 目前Windows版使用Intel的MSR寄存器读取温度和功耗，不支持AMD机型，如果你在使用AMD机型，并且知道一些接口用于读取温度和功耗，可以提[Issue](https://github.com/elight2/ClevoFanControl/issues)帮助我。Linux版中CPU功耗读取同样使用MSR，也不支持AMD
+* 目前Windows版使用Intel的MSR寄存器读取CPU温度和功耗，不支持AMD机型，如果你在使用AMD机型，并且知道一些接口用于读取温度和功耗，可以提[Issue](https://github.com/elight2/ClevoFanControl/issues)帮助我。Linux版中CPU功耗读取同样使用MSR，也不支持AMD
 * Linux下直接使用root身份启动程序可能出现程序正常运行但是托盘图标看不到的情况，请使用`cfc-launcher.sh`启动，本质是`unset XDG_CURRENT_DESKTOP`
-* 负载高（比如玩游戏）时请在托盘里切换`game***`模式，防止过热
-* 使用显卡时请打开托盘里的`Monitor GPU`，否则不会检测显卡温度，参考[显卡温度检测说明](#显卡温度检测说明)
+* 负载高（比如玩游戏）时请在托盘里切换`gamexxxx`模式，防止过热
+* 使用独显时请打开托盘里的`Monitor GPU`，否则不会检测显卡温度，参考[显卡温度检测说明](#显卡温度检测说明)
 * 默认的配置文件是作者在n960kp（神舟tx8）上根据自己的使用习惯测试并编写的，可能不适用于其他机型/用户，强烈建议阅读[功能介绍](#功能介绍)并自行修改配置
 * 有时从睡眠中唤醒之后，风扇会恢复蓝天默认调速，目前解决方法是打开"Clevo Auto"，过几秒再关闭
 * 如果电脑高负载下风扇突然加速，监视器显示调速信号并没有那么高，那么可能是电脑的某个芯片过热了，EC强制控制了风扇，这时最好直接开启"Max Speed"防止烧坏
@@ -38,7 +39,7 @@
 * Config：管理软件设置（这个做的不太完善，建议手动编辑配置文件）
 * Profile: 用于选择使用的配置方案
 * Commands: 用于执行自定义的命令
-* Max Speed：全速模式（模拟蓝天强冷）
+* Max Speed：全速模式（相当于蓝天强冷）
 * Speed Limit：开启限速功能（设置在Config界面）
 * Static Speed：开启恒定转速功能（设置在Config界面）
 * Clevo Auto：使用蓝天默认的“自动”模式
@@ -73,8 +74,7 @@
 
 ### Commands功能
 
-* 此功能本身与风扇调速无关，但我发现对于使用Linux的蓝天电脑很有用
-* 主要目的是Linux下一键以root身份执行命令，实现一键限频等功能
+* 主要目的是Linux下一键以root身份执行命令，实现一键限频等功能，Windows也适用
 * 自带的`GPU-1200`用于限制显卡频率最高为1200MHz，`GPU-rgc`用于恢复默认显卡频率上限
 
 ### 显卡温度检测说明
@@ -88,7 +88,7 @@
 * 自动检测使用`lsof`检测打开显卡系统文件的进程，要排除的进程写在配置文件的`procExclude`数组中，需要根据本机情况修改
 
 ### 命令行版本(ClevoFanControl-cmd)
-* 主要用于在没有gui的Linux系统上调节风扇，不依赖qt的lib文件,可以在极小的系统上运行
+* 主要用于在没有gui的Linux系统上调节风扇，不依赖qt的lib文件，可以在极小的系统上运行
 * 使用说明请使用`--help`或者`/?`参数查看
 * **注意：输入的数据将直接发送给EC芯片，不会经过最大值最小值等安全检查，请保证输入正确**
 
@@ -97,7 +97,7 @@
 #### Windows
 
 1. 在”任务计划程序“中创建自定义任务
-2. ”操作“选择启动`ClevoFanControl-gui.exe`，起始目录需要设置为`ClevoFanControl-gui`所在目录
+2. ”操作“选择启动`ClevoFanControl-gui.exe`，起始目录需要设置为软件目录
 3. ”触发器“选择用户登录时
 4. 勾选”使用最高权限运行“
 
@@ -108,14 +108,14 @@
 3. 在`/etc/sudoers`设置`ClevoFanControl-gui`无密码运行，即在`[用户名] ALL=(ALL:ALL)`后添加`NOPASSWD:[软件目录]/ClevoFanControl-gui`
 
 ## 构建
-* 工具：cmake，ninja，gcc，qt6
+* 工具：cmake，ninja，gcc，g++, qt6
 1. 下载源码，cd到源码目录
 2. 修改仓库中`src/scripts/`下的Windows/Linux的构建脚本，修改cmake配置参数，在仓库根目录执行
 
 ## 原理
 
 * [Windows风扇控制接口的解释](https://tieba.baidu.com/p/9101786783)
-* [Linux风扇控制接口以及EC的IO协议](https://tieba.baidu.com/p/9101786783)
+* [Linux风扇控制接口以及蓝天EC的IO协议](https://tieba.baidu.com/p/9101786783)
 * 仓库里的`ec.zip`里面有我备份的参考资料
 
 ### 风扇控制接口
@@ -124,7 +124,7 @@
 
 * Windows：[WinRing0](https://github.com/GermanAizek/WinRing0) [预编译文件](https://github.com/QCute/WinRing0)
 * Linux：`inb()`和`outb()`函数
-* 两个系统本质都是对io端口操作
+* 两个系统的调速本质都是对io端口操作
 
 ### 温度获取接口
 
