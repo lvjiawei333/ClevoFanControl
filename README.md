@@ -102,16 +102,32 @@ If you encounter bugs dring use, feel free to open an [Issue](https://github.com
 
 #### Linux
 
-### mechanism
-* `ec.zip` in this repository contains all the referance resource I found.
-#### Fan control interface
-* Windows: [WinRing0](https://github.com/GermanAizek/WinRing0) [pre-compiled binaries](https://github.com/QCute/WinRing0)
-* Linux: `inb()` and `outb()`
-#### Temperature query interface
-* Windows: CPU: MSR register `IA32_PACKAGE_THERM_STATUS_MSR`, GPU: `nvidia-smi -q -d=TEMPERATURE`
-* Linux: CPU: `/sys/class/thermal/thermal_zone*/temp`, GPU: `nvidia-smi -q -d=TEMPERATURE`
+1. Edit the [desktop file](src/scripts/start-cfc.desktop) in the repository, modify the path according to your system
+2. Copy the desktop file to XDG autostart directory (commonly `~/.config/autostart/` or `/etc/xdg/autostart/`)
+3. Allow `ClevoFanControl-gui` to run as root without password in `/etc/sudoers` by appending `NOPASSWD:[path-to-software]/ClevoFanControl-gui` to `[username] ALL=(ALL:ALL)`
 
-### Build
+## Build
 * Tools: cmake, ninja, gcc, qt6
 1. clone the repository
-2. Modify the build scrips in `src/scripts/`, make sure the cmake configure options are correct, finally run it
+2. Modify the build scrips under `src/scripts/`, make sure the cmake configure options are correct, then run it in the project root directory
+
+## Mechanism
+
+* `ec.zip` in this repository contains all the referance resource I found
+
+### Fan Control Interface
+
+* Windows: [WinRing0](https://github.com/GermanAizek/WinRing0) [Precompiled binaries](https://github.com/QCute/WinRing0)
+* Linux: `inb()` and `outb()` functions
+
+### Temperature Read Interface
+
+|Interface/OS|Windows                                                  |Linux                                  |
+|------------|---------------------------------------------------------|---------------------------------------|
+|CPU         |MSR register `IA32_PACKAGE_THERM_STATUS_MSR` (Intel only)|`/sys/class/thermal/thermal_zone`      |
+|GPU         |`nvidia-smi -q --display=TEMPERATURE`                    |`nvidia-smi -q --display=TEMPERATURE`  |
+
+### Power Read Interface
+
+* CPU: MSR register `MSR_PKG_ENERGY_STATUS` (Intel only)
+* GPU: `nvidia-smi -q --display=POWER`

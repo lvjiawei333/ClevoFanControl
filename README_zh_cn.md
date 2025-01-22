@@ -7,6 +7,7 @@
 ## 使用说明
 
 **详细说明参考[功能介绍](#功能介绍)**
+**一定要看[注意](#注意必读)**
 
 ### Windows
 
@@ -21,6 +22,7 @@
 
 #### 注意（必读）
 
+* 目前Windows版使用Intel的MSR寄存器读取温度和功耗，不支持AMD机型，如果你在使用AMD机型，并且知道一些接口用于读取温度和功耗，可以提[Issue](https://github.com/elight2/ClevoFanControl/issues)帮助我。Linux版中CPU功耗读取同样使用MSR，也不支持AMD
 * Linux下直接使用root身份启动程序可能出现程序正常运行但是托盘图标看不到的情况，请使用`cfc-launcher.sh`启动，本质是`unset XDG_CURRENT_DESKTOP`
 * 负载高（比如玩游戏）时请在托盘里切换`game***`模式，防止过热
 * 使用显卡时请打开托盘里的`Monitor GPU`，否则不会检测显卡温度，参考[显卡温度检测说明](#显卡温度检测说明)
@@ -102,18 +104,18 @@
 #### Linux
 
 1. 修改仓库里的[desktop文件](src/scripts/start-cfc.desktop)，确保目录正确
-2. 把desktop文件添加至xdg autostart（一般为`~/.config/autostart`或者`/etc/xdg/autostart/`）
+2. 把desktop文件添加至xdg autostart（一般为`~/.config/autostart/`或者`/etc/xdg/autostart/`）
 3. 在`/etc/sudoers`设置`ClevoFanControl-gui`无密码运行，即在`[用户名] ALL=(ALL:ALL)`后添加`NOPASSWD:[软件目录]/ClevoFanControl-gui`
 
 ## 构建
 * 工具：cmake，ninja，gcc，qt6
 1. 下载源码，cd到源码目录
-2. 修改仓库中`src/scripts/`下的windows和linux的构建脚本，修改cmake配置选项，执行即可
+2. 修改仓库中`src/scripts/`下的Windows/Linux的构建脚本，修改cmake配置参数，在仓库根目录执行
 
 ## 原理
 
-* [关于Windows环境的问题](https://tieba.baidu.com/p/9101786783)
-* [Linux环境及原理解释](https://tieba.baidu.com/p/9101786783)
+* [Windows风扇控制接口的解释](https://tieba.baidu.com/p/9101786783)
+* [Linux风扇控制接口以及EC的IO协议](https://tieba.baidu.com/p/9101786783)
 * 仓库里的`ec.zip`里面有我备份的参考资料
 
 ### 风扇控制接口
@@ -121,11 +123,17 @@
 蓝天风扇调速原理请参考`ec.zip`里的资料
 
 * Windows：[WinRing0](https://github.com/GermanAizek/WinRing0) [预编译文件](https://github.com/QCute/WinRing0)
-* Linux：`inb()`和`outb()`
+* Linux：`inb()`和`outb()`函数
+* 两个系统本质都是对io端口操作
 
 ### 温度获取接口
 
-|接口/系统|Windows                                   |Linux                            |
-|--------|------------------------------------------|---------------------------------|
-|CPU     |MSR寄存器中的`IA32_PACKAGE_THERM_STATUS_MSR`|`/sys/class/thermal/thermal_zone`|
-|GPU     |`nvidia-smi`                              |`nvidia-smi`                      |
+|接口/系统|Windows                                            |Linux                                  |
+|--------|---------------------------------------------------|---------------------------------------|
+|CPU     |MSR寄存器`IA32_PACKAGE_THERM_STATUS_MSR`(仅支持Intel)|`/sys/class/thermal/thermal_zone`      |
+|GPU     |`nvidia-smi -q --display=TEMPERATURE`              |`nvidia-smi -q --display=TEMPERATURE`  |
+
+### 功耗获取接口
+
+* CPU: MSR寄存器`MSR_PKG_ENERGY_STATUS`(仅支持Intel)
+* GPU: `nvidia-smi -q --display=POWER`
