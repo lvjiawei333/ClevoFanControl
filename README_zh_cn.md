@@ -88,6 +88,7 @@
 * 自动检测使用`lsof`检测打开显卡系统文件的进程，要排除的进程写在配置文件的`procExclude`数组中，需要根据本机情况修改
 
 ### 命令行版本(ClevoFanControl-cmd)
+
 * 主要用于在没有gui的Linux系统上调节风扇，不依赖qt的lib文件，可以在极小的系统上运行
 * 使用说明请使用`--help`或者`/?`参数查看
 * **注意：输入的数据将直接发送给EC芯片，不会经过最大值最小值等安全检查，请保证输入正确**
@@ -108,7 +109,10 @@
 3. 在`/etc/sudoers`设置`ClevoFanControl-gui`无密码运行，即在`[用户名] ALL=(ALL:ALL)`后添加`NOPASSWD:[软件目录]/ClevoFanControl-gui`
 
 ## 构建
+
 * 工具：cmake，ninja，gcc，g++, qt6
+* 我在Windows上采用了msys2的mingw-w64-x86_64-gcc进行编译（Qt等其他工具也使用了msys2中的mingw-w64-x86_64版本），使用minGW等其他方案提供的gcc也可以，不过需要自己写cmake配置命令
+
 1. 下载源码，cd到源码目录
 2. 修改仓库中`src/scripts/`下的Windows/Linux的构建脚本，修改cmake配置参数，在仓库根目录执行
 

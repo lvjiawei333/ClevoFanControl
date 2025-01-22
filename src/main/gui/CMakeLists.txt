@@ -40,4 +40,4 @@ set(CFC_RES_DIR ${CMAKE_SOURCE_DIR}/src/resources)
 set(CFC_RES ${CFC_RES_DIR}/ClevoFanControl.qrc ${CFC_RES_DIR}/ClevoFanControl.rc)
 
 add_executable(ClevoFanControl-gui ${CFC_SOURCE_GUI} ${CFC_UI} ${CFC_RES})
-target_link_libraries(ClevoFanControl-gui PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui)
+target_link_libraries(ClevoFanControl-gui Qt6::Core Qt6::Widgets Qt6::Gui)

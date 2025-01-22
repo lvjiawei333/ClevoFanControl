@@ -108,6 +108,7 @@ If you encounter bugs during use, feel free to open an [Issue](https://github.co
 3. Allow `ClevoFanControl-gui` to run as root without password in `/etc/sudoers` by appending `NOPASSWD:[path-to-software]/ClevoFanControl-gui` to `[username] ALL=(ALL:ALL)`
 
 ## Build
+
 * Tools: cmake, ninja, gcc, g++, qt6
 1. clone the repository
 2. Modify the build scripts under `src/scripts/`, make sure the cmake configure options are correct, then run it in the project root directory
